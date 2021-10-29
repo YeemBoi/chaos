@@ -21,7 +21,7 @@ class Polygon {
       const child = new Polygon([this.vertices[i]], this.depth + 1);
       for (let j = 0; j < this.vertices.length; j++) {
         if (i !== j) {
-          child.vertices.push(between(this.vertices[i], this.vertices[j], 0.5));
+          child.vertices.push(between(this.vertices[i], this.vertices[j], 1 / 2));
         }
       }
       if (this.depth < maxDepth) {
