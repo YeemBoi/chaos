@@ -1,6 +1,6 @@
 <template>
   <div class="flex-container">
-    <form class="flex-child" action="javascript:void(0)">
+    <form action="javascript:void(0)">
       <slot />
       <label for="res">Resolution</label>
       <input id="res" v-model="res" type="number" />
@@ -36,12 +36,7 @@
         <input id="includeCenter" v-model="includeCenter" type="checkbox"
       /></label>
     </form>
-    <canvas
-      class="flex-child"
-      ref="canvas"
-      :height="canvasRes"
-      :width="canvasRes"
-    />
+    <canvas ref="canvas" :height="canvasRes" :width="canvasRes" />
   </div>
 </template>
 <script>
@@ -182,18 +177,16 @@ label {
   display: flex;
   flex-flow: row wrap;
   align-items: top;
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
 }
-
-.flex-child {
-  flex: 1;
+form {
+  flex-grow: 0;
+  margin-right: 12px;
 }
 
-/*
-canvas  {
-  transform-origin: top;
-  transform: scale(2);
+canvas {
+  flex-grow: 1;
 }
-*/
 </style>
