@@ -15,7 +15,7 @@ export default {
     return {
       base: {},
       currentIteration: 0,
-      iterations: 8,
+      iterations: 16,
       pos: null,
     };
   },
