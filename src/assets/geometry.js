@@ -39,7 +39,7 @@ function childPolygons(vertices, jump) {
   for (const corner of vertices) {
     let newPolygon = [];
     for (const vertex of vertices) {
-      newPolygon.push(between(vertex, corner, jump));
+      newPolygon.push(between(corner, vertex, jump));
     }
     children.push(newPolygon);
   }

@@ -1,49 +1,47 @@
 <template>
   <div class="flex-container">
-    <div class="flex-child">
+    <form class="flex-child" action="#">
+      <slot />
+      <label for="res">Resolution</label>
+      <input id="res" v-model="res" type="number" />
+      <label for="verticesText">Vertices</label>
+      <input id="verticesText" v-model="verticesText" type="text" />
+
+      <label for="regularNGon">Or regular n-gon:</label>
+      <input id="regularNGon" v-model="regularNGon" type="number" min="3" />
+      <label for="jump">Jump</label>
+      <input
+        id="jump"
+        v-model="jump"
+        type="range"
+        :min="1 / 4"
+        :max="3 / 4"
+        step="any"
+      />
       <div>
-        <b>Resolution</b>
-        <input v-model="res" type="number" />
+        <button
+          v-for="preset in jumpPresets"
+          @click="jump = preset.value"
+          :key="preset.text"
+        >
+          {{ preset.text }}
+        </button>
       </div>
-      <div>
-        <b>Vertices</b>
-        <input v-model="verticesText" type="text" />
-      </div>
-      <div>
-        <b>Or regular n-gon:</b>
-        <input v-model="regularNGon" type="number" min="3" />
-      </div>
-      <div>
-        <b>Jump</b>
-        <input
-          v-model="jump"
-          type="range"
-          :min="1 / 4"
-          :max="3 / 4"
-          step="any"
-        />
-        <div>
-          <button
-            v-for="preset in jumpPresets"
-            @click="jump = preset.value"
-            :key="preset.text"
-          >
-            {{ preset.text }}
-          </button>
-        </div>
-      </div>
-      <div>
-        <b>Include sides</b>
-        <input v-model="includeSides" type="checkbox" />
-      </div>
-      <div>
-        <b>Include center</b>
-        <input v-model="includeCenter" type="checkbox" />
-      </div>
-    </div>
-    <div class="flex-child">
-      <canvas ref="canvas" :height="canvasRes" :width="canvasRes" />
-    </div>
+      <label for="includeSides"
+        >Include sides
+        <input id="includeSides" v-model="includeSides" type="checkbox"
+      /></label>
+      <label for="includeCenter"
+        >Include center
+        <input id="includeCenter" v-model="includeCenter" type="checkbox"
+      /></label>
+    </form>
+    <canvas
+      class="flex-child"
+      ref="canvas"
+      :height="canvasRes"
+      :width="canvasRes"
+    />
   </div>
 </template>
 <script>
@@ -68,32 +66,13 @@ export default {
           value: 1 / 2,
         },
         {
-          text: "1/3",
-          value: 1 / 3,
-        },
-        {
           text: "2/3",
           value: 2 / 3,
         },
-        /*
-        {
-          text: "19/50",
-          value: 19 / 50,
-        },
-        {
-          text: "1/4",
-          value: 1 / 4,
-        },
-        */
         {
           text: "1/Φ",
-          value: 1 / (1 + Math.sqrt(5)) / 2,
+          value: 2 / (1 + Math.sqrt(5)),
         },
-        /*{
-          text: "1/Φ but with sqrt(7)",
-          value: 1 / (1 + Math.sqrt(7)) / 2,
-        },
-        */
       ],
     };
   },
@@ -190,11 +169,19 @@ export default {
 };
 </script>
 
+<style>
+label {
+  padding-top: 12px;
+  font-weight: bold;
+  display: block;
+}
+</style>
+
 <style scoped>
 .flex-container {
   display: flex;
   flex-flow: row wrap;
-  /*align-items: center;*/
+  align-items: top;
   width: 100%;
   height: 100%;
 }

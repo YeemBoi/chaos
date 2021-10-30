@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <b>Iterations</b>
-    <input v-model="iterations" type="range" min="8" max="32" />
-  </div>
-  <BaseRenderer v-model="base" />
+  <BaseRenderer v-model="base">
+    <label for="iterations">Iterations</label>
+    <input id="iterations" v-model="iterations" type="range" min="8" max="32" />
+  </BaseRenderer>
 </template>
 
 <script>
@@ -24,8 +23,8 @@ export default {
     iterate() {
       this.base.canvas.fillRect(this.pos.x, this.pos.y, 1, 1);
       this.pos = between(
-        this.pos,
         this.base.points[~~(this.base.points.length * Math.random())],
+        this.pos,
         this.base.jump
       );
       this.currentIteration++;
