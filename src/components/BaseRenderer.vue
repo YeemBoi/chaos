@@ -1,6 +1,6 @@
 <template>
   <div class="flex-container">
-    <form class="flex-child" action="#">
+    <form class="flex-child" action="javascript:void(0)">
       <slot />
       <label for="res">Resolution</label>
       <input id="res" v-model="res" type="number" />
