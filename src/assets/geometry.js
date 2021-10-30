@@ -5,51 +5,45 @@ class Point {
   }
 }
 
-class Polygon {
-  constructor(vertices, depth) {
-    if (vertices.length && Array.isArray(vertices[0])) {
-      this.vertices = vertices.map((vertex) => new Point(...vertex));
-    } else {
-      this.vertices = vertices;
-    }
-    this.depth = depth;
-  }
-
-  children(maxDepth) {
-    const children = [];
-    for (let i = 0; i < this.vertices.length; i++) {
-      const child = new Polygon([this.vertices[i]], this.depth + 1);
-      for (let j = 0; j < this.vertices.length; j++) {
-        if (i !== j) {
-          child.vertices.push(between(this.vertices[i], this.vertices[j], 1 / 2));
-        }
-      }
-      if (this.depth < maxDepth) {
-        children.push(...child.children(maxDepth));
-      } else {
-        children.push(child);
-      }
-    }
-    return children;
-  }
+function midpoint(a, b) {
+  return new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
 }
 
 function between(a, b, ratio) {
-  return new Point((a.x + b.x) * ratio, (a.y + b.y) * ratio);
+  return new Point(
+    a.x * ratio + b.x * (1 - ratio),
+    a.y * ratio + b.y * (1 - ratio)
+  );
+}
+
+function fixFloat(n) {
+  return Math.round(n * 1e12) / 1e12;
 }
 
 function regularPolygon(n, center, radius) {
   const vertices = [];
-  const angleStep = (2 * Math.PI / n);
+  const angleStep = (2 * Math.PI) / n;
   for (let i = 0; i < n; i++) {
     vertices.push(
       new Point(
-        center.x + Math.cos(angleStep * i) * radius,
-        center.y + Math.sin(angleStep * i) * radius
+        center.x + fixFloat(Math.cos(angleStep * i) * radius),
+        center.y + fixFloat(Math.sin(angleStep * i) * radius)
       )
     );
   }
   return vertices;
 }
 
-export { Point, Polygon, between, regularPolygon };
+function childPolygons(vertices, jump) {
+  const children = [];
+  for (const corner of vertices) {
+    let newPolygon = [];
+    for (const vertex of vertices) {
+      newPolygon.push(between(vertex, corner, jump));
+    }
+    children.push(newPolygon);
+  }
+  return children;
+}
+
+export { Point, midpoint, between, fixFloat, regularPolygon, childPolygons };
