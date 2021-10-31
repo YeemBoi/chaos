@@ -52,12 +52,7 @@ export default {
           this.polygons.push(...childPolygons(polygon, this.actualJump));
         }
       }
-      this.base.canvas.clearRect(
-        0,
-        0,
-        this.base.canvasRes,
-        this.base.canvasRes
-      );
+      this.base.canvas.clearRect(0, 0, this.base.res, this.base.res);
       for (const polygon of this.polygons) {
         this.base.canvas.beginPath();
         for (let i = 0; i < this.renderedPoints; i++) {

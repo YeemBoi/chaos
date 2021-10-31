@@ -1,19 +1,19 @@
 <template>
   <h2>Standard</h2>
-  <Basic />
+  <Standard />
   <h2>Chaos Game</h2>
   <Chaos />
 </template>
 
 <script>
 import Chaos from "@/components/Chaos.vue";
-import Basic from "@/components/Basic.vue";
+import Standard from "@/components/Standard.vue";
 
 export default {
   name: "App",
   components: {
     Chaos,
-    Basic,
+    Standard,
   },
 };
 </script>

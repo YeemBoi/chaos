@@ -36,11 +36,11 @@
         <input id="includeCenter" v-model="includeCenter" type="checkbox"
       /></label>
     </form>
-    <canvas ref="canvas" :height="canvasRes" :width="canvasRes" />
+    <canvas ref="canvas" :height="res" :width="res" />
   </div>
 </template>
 <script>
-import { Point, regularPolygon, between } from "@/assets/geometry.js";
+import { Point, regularPolygon, midpoint } from "@/assets/geometry.js";
 
 export default {
   props: ["modelValue"],
@@ -75,38 +75,23 @@ export default {
     scaleFactor() {
       return this.res / 10;
     },
-    canvasRes() {
-      return this.res;
-    },
     points() {
       const points = [];
       for (const coords of this.verticesText.split(" ")) {
         if (coords.includes(",")) {
-          const xandy = coords.split(",").map(parseFloat);
-          points.push(
-            new Point(xandy[0] * this.scaleFactor, xandy[1] * this.scaleFactor)
-          );
+          points.push(this.scaleToPoint(...coords.split(",").map(parseFloat)));
         }
       }
       if (this.includeSides) {
         const oldLen = points.length;
         for (let i = 0; i < oldLen; i++) {
-          let secondPoint;
-          if (i === oldLen - 1) {
-            secondPoint = points[0];
-          } else {
-            secondPoint = points[i + 1];
-          }
-          points.push(between(points[i], secondPoint, 1 / 2));
+          points.push(
+            midpoint([points[i], points[(i === oldLen - 1) ? 0 : i + 1]])
+          );
         }
       }
       if (this.includeCenter) {
-        points.push(
-          new Point(
-            points.reduce((a, point) => a + point.x, 0) / points.length,
-            points.reduce((a, point) => a + point.y, 0) / points.length
-          )
-        );
+        points.push(midpoint(points));
       }
       return points;
     },
@@ -119,12 +104,14 @@ export default {
       this.$emit("update:modelValue", {
         canvas: this.canvas,
         res: this.res,
-        canvasRes: this.canvasRes,
         points: this.points,
         includeCenter: this.includeCenter,
         includeSides: this.includeSides,
         jump: this.jump,
       });
+    },
+    scaleToPoint(x, y) {
+      return new Point(x * this.res / 10, y * this.res / 10);
     },
   },
   watch: {
@@ -188,5 +175,7 @@ form {
 
 canvas {
   flex-grow: 1;
+  max-height: 100vh;
+  max-width: 100vh;
 }
 </style>

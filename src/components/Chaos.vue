@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { between } from "@/assets/geometry.js";
+import { ratioBetween } from "@/assets/geometry.js";
 import BaseRenderer from "@/components/BaseRenderer.vue";
 export default {
   name: "Chaos",
@@ -22,7 +22,7 @@ export default {
   methods: {
     iterate() {
       this.base.canvas.fillRect(this.pos.x, this.pos.y, 1, 1);
-      this.pos = between(
+      this.pos = ratioBetween(
         this.base.points[~~(this.base.points.length * Math.random())],
         this.pos,
         this.base.jump
@@ -30,12 +30,7 @@ export default {
       this.currentIteration++;
     },
     iterateAll() {
-      this.base.canvas.clearRect(
-        0,
-        0,
-        this.base.canvasRes,
-        this.base.canvasRes
-      );
+      this.base.canvas.clearRect(0, 0, this.base.res, this.base.res);
       if (!this.base.points.length) {
         return;
       }

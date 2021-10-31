@@ -5,11 +5,14 @@ class Point {
   }
 }
 
-function midpoint(a, b) {
-  return new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
+function midpoint(points) {
+  return new Point(
+    points.reduce((a, point) => a + point.x, 0) / points.length,
+    points.reduce((a, point) => a + point.y, 0) / points.length
+  );
 }
 
-function between(a, b, ratio) {
+function ratioBetween(a, b, ratio) {
   return new Point(
     a.x * ratio + b.x * (1 - ratio),
     a.y * ratio + b.y * (1 - ratio)
@@ -39,11 +42,18 @@ function childPolygons(vertices, jump) {
   for (const corner of vertices) {
     let newPolygon = [];
     for (const vertex of vertices) {
-      newPolygon.push(between(corner, vertex, jump));
+      newPolygon.push(ratioBetween(corner, vertex, jump));
     }
     children.push(newPolygon);
   }
   return children;
 }
 
-export { Point, midpoint, between, fixFloat, regularPolygon, childPolygons };
+export {
+  Point,
+  midpoint,
+  ratioBetween,
+  fixFloat,
+  regularPolygon,
+  childPolygons,
+};
