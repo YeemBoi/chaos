@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       base: {},
-      iterations: 4,
+      iterations: 1,
       currentIteration: 0,
       polygons: [],
     };

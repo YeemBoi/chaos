@@ -36,7 +36,9 @@
         <input id="includeCenter" v-model="includeCenter" type="checkbox"
       /></label>
     </form>
-    <canvas ref="canvas" :height="res" :width="res" />
+    <div class="growing">
+      <canvas ref="canvas" :height="res" :width="res" />
+    </div>
   </div>
 </template>
 <script>
@@ -169,10 +171,7 @@ form {
   flex-grow: 0;
   margin-right: 12px;
 }
-
-canvas {
+.growing {
   flex-grow: 1;
-  max-height: 100vh;
-  max-width: 100vh;
 }
 </style>

@@ -2,6 +2,8 @@
   <BaseRenderer v-model="base">
     <label for="iterations">Iterations</label>
     <input id="iterations" v-model="iterations" type="range" min="8" max="32" />
+    <label for="pixelScale">Pixel scale</label>
+    <input id="pixelScale" v-model="pixelScale" type="number" min="1" max="5" />
   </BaseRenderer>
 </template>
 
@@ -16,14 +18,28 @@ export default {
       base: {},
       currentIteration: 0,
       iterations: 16,
+      pixelScale: 2,
       pos: null,
     };
   },
+  computed: {
+    scaledPoints() {
+      return this.base.points.map((point) => ({
+        x: point.x / this.pixelScale,
+        y: point.y / this.pixelScale,
+      }));
+    },
+  },
   methods: {
     iterate() {
-      this.base.canvas.fillRect(this.pos.x, this.pos.y, 1, 1);
+      this.base.canvas.fillRect(
+        Math.round(this.pos.x) * this.pixelScale,
+        Math.round(this.pos.y) * this.pixelScale,
+        this.pixelScale,
+        this.pixelScale
+      );
       this.pos = ratioBetween(
-        this.base.points[~~(this.base.points.length * Math.random())],
+        this.scaledPoints[~~(this.scaledPoints.length * Math.random())],
         this.pos,
         this.base.jump
       );
@@ -60,6 +76,10 @@ export default {
       this.base = val;
       this.iterateAll();
     },
+    pixelScale(val) {
+      this.pixelScale = val;
+      this.iterateAll();
+    }
   },
 };
 </script>
