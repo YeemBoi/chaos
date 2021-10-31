@@ -1,7 +1,13 @@
 <template>
-  <BaseRenderer v-model="base">
-    <label for="iterations">Iterations</label>
-    <input id="iterations" v-model="iterations" type="range" min="8" max="32" />
+  <BaseRenderer v-model="base" base-id="chaos">
+    <label for="chaosIterations">Iterations</label>
+    <input
+      id="chaosIterations"
+      v-model="iterations"
+      type="range"
+      min="8"
+      max="32"
+    />
     <label for="pixelScale">Pixel scale</label>
     <input id="pixelScale" v-model="pixelScale" type="number" min="1" max="5" />
   </BaseRenderer>
@@ -79,7 +85,7 @@ export default {
     pixelScale(val) {
       this.pixelScale = val;
       this.iterateAll();
-    }
+    },
   },
 };
 </script>

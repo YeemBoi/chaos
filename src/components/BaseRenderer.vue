@@ -2,16 +2,20 @@
   <div class="flex-container">
     <form action="javascript:void(0)">
       <slot />
-      <label for="res">Resolution</label>
-      <input id="res" v-model="res" type="number" />
-      <label for="verticesText">Vertices</label>
-      <input id="verticesText" v-model="verticesText" type="text" />
-
-      <label for="regularNGon">Or regular n-gon:</label>
-      <input id="regularNGon" v-model="regularNGon" type="number" min="3" />
-      <label for="jump">Jump</label>
+      <label :for="id('res')">Resolution</label>
+      <input :id="id('res')" v-model="res" type="number" />
+      <label :for="id('verticesText')">Vertices</label>
+      <input :id="id('verticesText')" v-model="verticesText" type="text" />
+      <label :for="id('regularNGon')">Or regular n-gon:</label>
       <input
-        id="jump"
+        :id="id('regularNGon')"
+        v-model="regularNGon"
+        type="number"
+        min="3"
+      />
+      <label :for="id('jump')">Jump</label>
+      <input
+        :id="id('jump')"
         v-model="jump"
         type="range"
         :min="1 / 4"
@@ -27,13 +31,16 @@
           {{ preset.text }}
         </button>
       </div>
-      <label for="includeSides"
+      <label :for="id('includeSides')"
         >Include sides
-        <input id="includeSides" v-model="includeSides" type="checkbox"
+        <input :id="id('includeSides')" v-model="includeSides" type="checkbox"
       /></label>
-      <label for="includeCenter"
+      <label :for="id('includeCenter')"
         >Include center
-        <input id="includeCenter" v-model="includeCenter" type="checkbox"
+        <input
+          :id="id('includeCenter')"
+          v-model="includeCenter"
+          type="checkbox"
       /></label>
     </form>
     <div class="growing">
@@ -45,7 +52,7 @@
 import { regularPolygon, midpoint } from "@/assets/geometry.js";
 
 export default {
-  props: ["modelValue"],
+  props: ["modelValue", "baseId"],
   name: "BaseRenderer",
   emits: ["update:modelValue"],
   data() {
@@ -99,6 +106,9 @@ export default {
     },
   },
   methods: {
+    id(val) {
+      return `${this.baseId}__${val}`;
+    },
     emitAll() {
       this.$emit("update:modelValue", {
         canvas: this.canvas,

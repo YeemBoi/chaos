@@ -1,10 +1,10 @@
 <template>
-  <BaseRenderer v-model="base">
-    <label for="iterations"
+  <BaseRenderer v-model="base" base-id="standard">
+    <label for="standardIterations"
       >Iterations <button @click="iterations++">Iterate</button></label
     >
     <input
-      id="iterations"
+      id="standardIterations"
       v-model="iterations"
       type="number"
       min="1"
