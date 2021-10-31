@@ -32,14 +32,14 @@ export default {
       return this.base.jump;
     },
     renderedPoints() {
-      let i = this.base.points.length;
+      let n = this.base.points.length;
       if (this.base.includeCenter) {
-        i--;
+        n--;
       }
       if (this.base.includeSides) {
-        i /= 2;
+        n /= 2;
       }
-      return i;
+      return n;
     },
   },
   methods: {

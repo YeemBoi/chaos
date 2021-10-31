@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import { Point, regularPolygon, midpoint } from "@/assets/geometry.js";
+import { regularPolygon, midpoint } from "@/assets/geometry.js";
 
 export default {
   props: ["modelValue"],
@@ -72,9 +72,6 @@ export default {
     };
   },
   computed: {
-    scaleFactor() {
-      return this.res / 10;
-    },
     points() {
       const points = [];
       for (const coords of this.verticesText.split(" ")) {
@@ -86,7 +83,7 @@ export default {
         const oldLen = points.length;
         for (let i = 0; i < oldLen; i++) {
           points.push(
-            midpoint([points[i], points[(i === oldLen - 1) ? 0 : i + 1]])
+            midpoint([points[i], points[i === oldLen - 1 ? 0 : i + 1]])
           );
         }
       }
@@ -111,12 +108,12 @@ export default {
       });
     },
     scaleToPoint(x, y) {
-      return new Point(x * this.res / 10, y * this.res / 10);
+      return { x: x * this.res / 10, y: y * this.res / 10 };
     },
   },
   watch: {
     regularNGon(val) {
-      this.verticesText = regularPolygon(val, new Point(5, 5), 5)
+      this.verticesText = regularPolygon(val, { x: 5, y: 5 }, 5)
         .map((point) => `${point.x},${point.y}`)
         .join("  ");
     },
