@@ -13,7 +13,7 @@
         type="number"
         min="3"
       />
-      <label :for="id('jump')">Jump</label>
+      <label :for="id('jump')">Jump Ratio</label>
       <input
         :id="id('jump')"
         v-model="jump"
@@ -92,7 +92,7 @@ export default {
         const oldLen = points.length;
         for (let i = 0; i < oldLen; i++) {
           points.push(
-            midpoint([points[i], points[i === oldLen - 1 ? 0 : i + 1]])
+            midpoint([points[i], points[i + i === oldLen ? 0 : i + 1]])
           );
         }
       }
