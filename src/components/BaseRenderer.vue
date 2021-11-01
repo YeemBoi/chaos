@@ -92,7 +92,7 @@ export default {
         const oldLen = points.length;
         for (let i = 0; i < oldLen; i++) {
           points.push(
-            midpoint([points[i], points[i + i === oldLen ? 0 : i + 1]])
+            midpoint([points[i], points[i + 1 === oldLen ? 0 : i + 1]])
           );
         }
       }
